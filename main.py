@@ -5,7 +5,7 @@ if __name__ == "__main__":
     articles = fetch_nyt_articles()
 
     print(f"\nTotal NYT articles fetched: {len(articles)}\n")
-
+    ## test function
     for article in articles[:5]:
         print(f"Title: {article['title']}")
         print(f"Summary: {article['summary'][:100]}...")
