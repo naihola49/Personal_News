@@ -1,6 +1,6 @@
 from sentence_transformers import SentenceTransformer
 
-model = SentenceTransformer('all-MiniLM-L6-v2')  # Fast + accurate
+model = SentenceTransformer('all-MiniLM-L6-v2')  # distilled -> lightweight
 
 def embed_articles(articles):
     """
