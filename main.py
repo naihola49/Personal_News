@@ -42,7 +42,7 @@ def main_session():
     remaining_indices = list(set(range(len(articles))) - set(top_10_indices))
 
     random_sample_indices = random.sample(remaining_indices, 7)
-    final_indicies = list(top_10_indices) + list(random_sample_indices) # merge
+    final_indices = list(top_10_indices) + list(random_sample_indices) # merge
     random.shuffle(final_indices)
 
 
