@@ -3,9 +3,11 @@ Load feedback, train model, retrain model
 """
 import json
 import numpy as np
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import StandardScaler
+from sklearn.pipeline import Pipeline
 import joblib
 
 
@@ -33,14 +35,29 @@ def train_feedback_model(X, y):
     """
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-    model = LogisticRegression(max_iter=1000)
-    model.fit(X_train, y_train)
+    pipeline = Pipeline([
+        ('scaler', StandardScaler()),
+        ('logreg', LogisticRegression(max_iter=1000))
+    ])
 
-    y_pred = model.predict(X_test)
+    param_grid = {
+        'logreg__C': [0.01, 0.1, 1, 10, 100],
+        'logreg__solver': ['liblinear', 'lbfgs', 'saga']
+    }
+
+    grid_search = GridSearchCV(pipeline, param_grid, cv=5, scoring='accuracy', verbose=0)
+    grid_search.fit(X_train, y_train)
+
+    best_model = grid_search.best_estimator_
+
+    y_pred = best_model.predict(X_test)
     acc = accuracy_score(y_test, y_pred)
 
     print(f"Model trained. Validation accuracy: {acc:.2f}")
-    return model
+    print(f"Best Params: {grid_search.best_params_}")
+
+    return best_model
+
 
 def retrain_model(feedback_path="user_feedback.jsonl", model_path="user_feedback_model.joblib"):
     """
