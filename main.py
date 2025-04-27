@@ -23,6 +23,8 @@ def main_session():
     wsj_articles = fetch_wsj_articles()
     ft_articles = fetch_ft_articles()
     articles = nyt_articles + wsj_articles + ft_articles
+    # remove duplicates
+    articles = remove_duplicates(articles)
     print(f"Total Articles Fetched {len(articles)}")
 
     # embed -> BERT
@@ -42,7 +44,7 @@ def main_session():
     remaining_indices = list(set(range(len(articles))) - set(top_10_indices))
 
     random_sample_indices = random.sample(remaining_indices, 7)
-    final_indicies = list(top_10_indices) + list(random_sample_indices) # merge
+    final_indices = list(top_10_indices) + list(random_sample_indices) # merge
     random.shuffle(final_indices)
 
 
@@ -53,11 +55,13 @@ def main_session():
     for idx in final_indices:
         article = articles[idx]
         score = prob[idx]
+        print("="*80)
         print(f"{article['source']} | {score:.2f}")
         print(f"Title: {article['title']}")
-        print(f"Summary: {article['summary'][:200]}...")
+        print(f"Summary: {article['summary']}")
         print(f"Link: {article['link']}")
         print(f"Published: {article['published']}\n")
+        print("="*80)
     
         # getting user feedback
         while True:
