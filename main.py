@@ -8,7 +8,7 @@ import joblib
 import numpy as np
 import os
 
-def load_model(model_path="user_feedback_model.joblib"):
+def load_model(model_path="models/user_feedback_model.joblib"):
     """
     Loads saved sklearn from disk
     """
