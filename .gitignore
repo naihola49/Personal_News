@@ -3,3 +3,5 @@ GO_1/
 __pycache__/
 *.pyc 
 .env
+data/
+models/
