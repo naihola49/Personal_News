@@ -2,8 +2,6 @@
 
 A personalized, machine learning-powered news aggregator that pulls articles from major sources, generates BERT embeddings, collects user preferences, and updates a preference model in real time.
 
----
-
 ## Features
 
 - **Real-time Article Fetching**  
